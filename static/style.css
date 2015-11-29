@@ -1,0 +1,38 @@
+body {
+    position:relative;
+    background:#545454;
+}
+
+.header {
+    position:absolute;
+    width:100%;
+    height:100px;
+    background:black;
+    color:white;
+    top:0;
+}
+
+.title { margin-top:20px;
+         font-size:50px;
+         font-family:'Verdana Bold';
+         text-align:center;
+}
+.setup_form {
+    position:fixed;
+    background:#ccc;
+    padding:10px 10px 10px 10px;
+    margin-top:20%;
+    width:25%;
+    left:36.75%;
+    border: 2px solid gold;
+    border-radius: 10px;
+}
+.setup_network {
+    position:fixed;
+    text-align:center;
+}
+label {
+    height:22px;
+    width: 100px; 
+    float: left; }
+input { float: right; }

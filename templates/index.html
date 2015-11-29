@@ -1,0 +1,18 @@
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+<body>
+    <div class="header">
+        <h1 class='title'>BAT-PHONE CONFIG</h1>
+    </div>
+    <div>
+        <form action="{{ url_for('join') }}" method=post class='setup_form'>
+            <table>
+                <tr><td><label>Network:</label></td>
+                <td><input type=text size=18 name='ssid'></td></tr>
+                <tr><td><label>Public Key:</label></td>
+                <td><input type=text size=18 name='publickey'></td></tr>
+                <tr><td><label>MAC Address:</label></td>
+                <td><input type=text size=18 name='mac'></td></tr>
+                <tr><td></td><td><input type=submit value='Configure'></td></tr>
+            </table>
+    </div>
+</body>
