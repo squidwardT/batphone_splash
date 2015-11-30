@@ -30,7 +30,9 @@ stormpath_manager = StormpathManager(app)
 
 @app.route('/')
 def show_index():
-	return render_template('index.html')
+	import netifaces
+	interfaces = [interface for interface in netifaces.interfaces() if interface.find('wlan') != -1]
+	return render_template('index.html', option_list=interfaces)
 
 @app.route('/error')
 def show_error():
@@ -47,22 +49,28 @@ def join():
 		ssid = request.form['ssid']
 		publickey = request.form['publickey']
 		mac = request.form['mac']
-		join_batman_network(network_name = ssid,
-				     ap_mac = mac)
+		password = request.form['admin_password']
+		interface = request.form['interfaces']
+		join_batman_network(password = password,
+				    interface = interface,
+				    network_name = ssid,
+				    ap_mac = mac)
 	except StormpathError, err:
 		error = err.message
 	
-	server_address = 'http://batphone.co/'
-	response = request.get(server_address)
-	if response.status_code == 200:
+	try:
+		server_address = 'http://batphone.co/'
+		response = requests.get(server_address)
 		webbrowser.open(server_address)
-	else:
-		lan_host_address = 'http://192.168.2.1:3000/'
-		response = request.get(lan_host_address)
-		if response.status_code == 200:
+	except requests.exception.ConnectionError:
+		try:
+			lan_host_address = 'http://192.168.2.8:3000/'
+			response = requests.get(lan_host_address)
 			webbrowser.open(lan_host_address)
-		else:
+		except requests.exception.ConnectionError:
 			return render_template('error.html', error = error)
+	return 'OK'			
+			
 
 def start_app():
 	app.run()

@@ -1,4 +1,4 @@
-def load_batman():
+def load_batman(password):
 	'''Load BATMAN-Advanced.
 
 	ARGS:
@@ -12,8 +12,8 @@ def load_batman():
 	from run_command import run_command
 
 	# Run the load and store stdout
-	run_command('modprobe batman-adv')
-	out, err = run_command('dmesg')
+	run_command('sudo modprobe batman-adv', password)
+	out, err = run_command('dmesg', password)
 
 	# Check if load was successful
 	if 'BATMAN-Advanced was loaded successfully' in out:

@@ -33,6 +33,8 @@ body {
 }
 label {
     height:22px;
-    width: 100px; 
+    width: 120px; 
     float: left; }
 input { float: right; }
+select {float: right; 
+	width: 70px; }

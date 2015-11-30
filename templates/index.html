@@ -12,6 +12,14 @@
                 <td><input type=text size=18 name='publickey'></td></tr>
                 <tr><td><label>MAC Address:</label></td>
                 <td><input type=text size=18 name='mac'></td></tr>
+		<tr><td><label>Admin Password:</label></td>
+		<td><input type=text size=18 name='admin_password'></td></tr>
+		<tr><td><label>LAN Interface:</label></td>
+		<td><select name='interfaces'>
+		    {% for o in option_list %}
+			<option value="{{ o }}" SELECTED>{{ o }}</option>
+		    {% endfor %}
+		    </select></td>
                 <tr><td></td><td><input type=submit value='Configure'></td></tr>
             </table>
     </div>

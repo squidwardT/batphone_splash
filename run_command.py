@@ -2,7 +2,7 @@ import argparse
 from shlex import split
 from subprocess import Popen, PIPE
 
-def run_command(command):
+def run_command(command, password = 'tenticles'):
     '''Run a terminal command.
 
     ARGS:
@@ -13,14 +13,11 @@ def run_command(command):
     err		-- The string written to stderr during the commands run cycle.
     '''
 
-    # Split the command string into an array of terminal arguments
-    args = split(command)
-
     # Run the command and write stdout and stderr to subprocess.PIPE
-    process = Popen(args, stdout=PIPE, stderr=PIPE, shell=True)
+    process = Popen(command, stdin=PIPE, stdout=PIPE, stderr=PIPE, shell=True)
 
     # Kill the process and read and return stdout and stderr
-    out, err = process.communicate()
+    out, err = process.communicate(password + '\n')
     return out, err
 
 if __name__ == '__main__':
