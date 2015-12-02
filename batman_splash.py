@@ -20,7 +20,6 @@ from flask.ext.stormpath import (
 )
 
 app = Flask(__name__)
-app.config['DEBUG'] = True
 app.config['SECRET_KEY'] = 'nananananananana'
 app.config['STORMPATH_API_KEY_FILE'] = 'apiKey-YVVIY4R3LM986736KU1OS4LNX.properties'
 app.config['STORMPATH_APPLICATION'] = 'batman_splash'
@@ -55,25 +54,35 @@ def join():
 				    interface = interface,
 				    network_name = ssid,
 				    ap_mac = mac)
+		print 'Successfully Joined Network'
 	except StormpathError, err:
 		error = err.message
 	
 	try:
 		server_address = 'http://batphone.co/'
+		print 'Attempting Request On ' + server_address
 		response = requests.get(server_address)
+		if response.status_code != 200:
+			raise requests.exceptions.ConnectionError
+		print 'Server Accessible. Loading Page....'
 		webbrowser.open(server_address)
-	except requests.exception.ConnectionError:
+	except requests.exceptions.RequestException:
 		try:
+			print 'Failed to Connect to Server'
 			lan_host_address = 'http://192.168.2.8:3000/'
+			print 'Attempting Request on ' + lan_host_address
 			response = requests.get(lan_host_address)
+			if response.status_code != 200:
+				raise requests.exceptions.ConnectionError
+			print 'LAN Host Accessible. Loading Page....'
 			webbrowser.open(lan_host_address)
-		except requests.exception.ConnectionError:
+		except requests.exceptions.RequestException:
 			return render_template('error.html', error = error)
 	return 'OK'			
 			
 
 def start_app():
-	app.run()
+	app.run(debug = True, use_reloader = False)
 
 if __name__=='__main__':
 	app.run()
