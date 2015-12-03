@@ -41,19 +41,36 @@ def show_error():
 def join():
 	import requests
 	import webbrowser
+	from sockets import TCPSocket
+	from run_command import run_command
+	from read_mac_address import read_mac_address
+	from join_batman_network import join_batman_network
 
 	error = None
 	try:
+		from 
+		from run_command import run_command
+		from sockets import TCPSocket
 		from join_batman_network import join_batman_network
 		ssid = request.form['ssid']
 		publickey = request.form['publickey']
 		mac = request.form['mac']
 		password = request.form['admin_password']
 		interface = request.form['interfaces']
+
 		join_batman_network(password = password,
 				    interface = interface,
 				    network_name = ssid,
 				    ap_mac = mac)
+
+		if_mac = read_mac_address(interface)
+		sock = TCPSocket()
+		sock.connect('192.168.2.15', 5005)
+		sock.write('DHCP ' + if_mac + '/n')
+
+		response = socket.read()
+		run_command('sudo ifconfig bat0 ' + response, password)		
+		
 		print 'Successfully Joined Network'
 	except StormpathError, err:
 		error = err.message

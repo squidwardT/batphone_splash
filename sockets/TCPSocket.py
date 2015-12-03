@@ -11,8 +11,7 @@ class TCPSocket(object):
 					   class will create a socket instead.
 	'''
 
-	def __init__(self, address, sock = None):
-		self.address = address
+	def __init__(self, sock = None):
 		
 		if sock is None:
 			self.create_socket()
